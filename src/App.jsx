@@ -15,13 +15,20 @@ function App() {
   return (
     <Router>
       <div className="flex bg-gray-100 min-h-screen">
-        <Sidebar /> {/* Fixed Sidebar */}
-        {/* Main Content Area */}
-        <div className="flex-1 overflow-y-auto"> {/* Add ml-64 and overflow-y-auto */}
+        <Sidebar /> {/* Sidebar should always be visible */}
+        {/* Define Routes */}
+        <div className="flex-1">
           <Routes>
+            {/* Main Landing Page */}
             <Route path="/" element={<MainPage />} />
+
+            {/* Investor Form Page */}
             <Route path="/investor" element={<InvestorForm />} />
+
+            {/* Business Form Page */}
             <Route path="/business" element={<BusinessForm />} />
+
+            {/* Investor Catalog Page */}
             <Route path="/investor-catalog" element={<InvestorCatalog />} />
           </Routes>
         </div>
@@ -197,34 +204,51 @@ function BusinessForm() {
     setTimeout(() => {
       setIsLoading(false);
       clearInterval(interval);
-      setScoringResult("75/100 (Level 2)");
+      if (formData.industry === "deepGrainProcessing") {
+        setScoringResult("88/100 (Level 4)");
+      } else {
+        setScoringResult("75/100 (Level 2)");
+      }
       setShowTypewriter(true); // Start typewriter effect
     }, 10000); // Stop loading after 10 seconds
   };
-  
-  
 
-  // Typewriter effect for scoring explanation
   useEffect(() => {
     if (showTypewriter) {
-      const scoringExplanation = `
-Ваш проект получил оценку 75 из 100, что соответствует Level 2.
-
-Основные результаты скоринга:
-
-Финансовые показатели: Ваши финансовые данные демонстрируют стабильность и умеренный потенциал роста. Однако, есть возможности для улучшения в области рентабельности и управления затратами.
-
-Команда: Ваша команда обладает необходимым опытом и навыками для реализации проекта. Уровень квалификации участников оценивается как высокий.
-
-Риски: Выявлены умеренные риски, связанные с рыночной конкуренцией и внешними экономическими факторами. Эти риски находятся в допустимых пределах, но требуют внимания.
-
-Инфраструктура: Инфраструктура проекта соответствует заявленным целям, но есть возможности для оптимизации и расширения.
-
-Документация: Предоставленные документы полны и соответствуют требованиям, однако некоторые разделы требуют более детальной проработки.
-
-Итог: Ваш проект обладает хорошим потенциалом и соответствует Level 2. Это означает, что проект привлекателен для инвесторов, но может потребовать дополнительной проработки для достижения более высокого рейтинга.
-      `;
-
+      setTypewriterText(""); // Reset the typewriter text before starting
+  
+      const scoringExplanation = formData.industry === "deepGrainProcessing" ? 
+  `Ваш проект получил 88 из 100 (Level 4).
+  
+  Основные результаты:
+  
+  Финансовые показатели: Отличные результаты, высокая рентабельность и эффективное управление затратами.
+  
+  Команда: Команда имеет высокий уровень квалификации и опыта, что позволяет уверенно реализовать проект.
+  
+  Риски: Риски минимальны, с хорошими стратегиями для их управления. Конкуренция и экономические факторы контролируются.
+  
+  Инфраструктура: Инфраструктура полностью соответствует заявленным целям, с возможностями для дальнейшего роста и оптимизации.
+  
+  Документация: Документы полные, детализированные и соответствуют всем требованиям.
+  
+  Итог: Проект имеет высокий потенциал и привлекает внимание инвесторов. Ожидается успешная реализация с минимальными рисками.`
+       : 
+  `Ваш проект получил 75 из 100 (Level 2).
+  
+  Основные результаты:
+  
+  Финансовые показатели: Стабильность и умеренный рост. Есть возможности для улучшения рентабельности и управления затратами.
+  
+  Команда: Команда с необходимым опытом и высоким уровнем квалификации для реализации проекта.
+  
+  Риски: Умеренные риски, связанные с рыночной конкуренцией и внешними экономическими факторами, требуют внимания.
+  
+  Инфраструктура: Инфраструктура соответствует целям, но есть возможности для оптимизации.
+  
+  Документация: Документы полные, но некоторые разделы требуют доработки.
+  
+  Итог: Проект имеет хороший потенциал, но требует доработки для повышения рейтинга.`;
       let index = 0;
       const typewriterInterval = setInterval(() => {
         if (index < scoringExplanation.length) {
@@ -234,10 +258,10 @@ function BusinessForm() {
           clearInterval(typewriterInterval);
         }
       }, 30); // Adjust speed of typing here
-
+  
       return () => clearInterval(typewriterInterval);
     }
-  }, [showTypewriter]);
+  }, [showTypewriter, formData.industry]);
 
   const stepNames = [
     "Общая информация",
@@ -280,14 +304,17 @@ function BusinessForm() {
             <div className="flex flex-col items-center justify-center text-center">
               {/* Stunning Scoring Result UI */}
               <div className="animate-fade-in">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                  Скоринг завершен
-                </h2>
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full inline-block">
-                  <span className="text-2xl font-bold">75/100</span>
-                  <span className="ml-2 text-lg font-semibold">(Level 2)</span>
-                </div>
-              </div>
+  <h2 className="text-3xl font-bold text-gray-800 mb-2">
+    Скоринг завершен
+  </h2>
+  <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full inline-block">
+    <span className="text-2xl font-bold">{scoringResult.split('/')[0]}/100</span>
+    <span className="ml-2 text-lg font-semibold">
+      {/* Extract the level from scoringResult */}
+      {scoringResult.match(/\(Level \d\)/)?.toString()}
+    </span>
+  </div>
+</div>
 
               {/* Typewriter Effect for Scoring Explanation */}
               {showTypewriter && (
@@ -474,8 +501,9 @@ function InvestorCatalog() {
                 <h2 className="text-xl font-semibold text-gray-800">
                   {investor.name}
                 </h2>
+                {/* Use the mapping to display the translated sector name */}
                 <p className="text-sm text-gray-500 mt-1">
-                  {industrySectorMapping[investor.sector]}
+                  {industrySectorMapping[investor.sector] || investor.sector}
                 </p>
               </div>
               <span
@@ -505,6 +533,7 @@ function InvestorCatalog() {
     </div>
   );
 }
+
 
 
 export default App;
