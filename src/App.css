@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.app-container {
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.card {
+  padding: 20px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333; /* Darker text color */
+  background-color: #fff; /* Ensure background is white */
+  font-size: 16px;
+}
+
+.input-field::placeholder {
+  color: #777; /* Gray placeholder for better contrast */
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff; /* Blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+textarea.input-field {
+  resize: vertical; /* Allow vertical resizing only */
+}
+
+
+/* App.css */
+
+/* Set the text color to dark (black or dark gray) for the main content */
+.flex-1 {
+  color: #333; /* Dark gray color for the text */
+}
+
+/* Form inputs, textareas, selects, labels within the main content */
+.flex-1 input,
+.flex-1 textarea,
+.flex-1 select,
+.flex-1 label {
+  color: #333; /* Dark gray color */
+  text-align: left; /* Align form content to the left */
+}
+
+/* Ensure all headings, paragraphs, and labels within the main content are dark */
+.flex-1 h1, 
+.flex-1 h2, 
+.flex-1 h3, 
+.flex-1 p, 
+.flex-1 label {
+  color: #333; /* Dark gray color */
+  text-align: left; /* Align text to the left */
+}
+
+/* Buttons should not have the dark text color */
+.flex-1 button {
+  color: white; /* Buttons should have white text, or adjust as needed */
+}
+
+/* Ensure inputs (text, file) are left-aligned */
+.flex-1 input[type="text"],
+.flex-1 input[type="file"],
+.flex-1 textarea,
+.flex-1 select {
+  text-align: left;
+}
+
+/* Optional: Make sure the text in inputs and selects is left-aligned */
+.flex-1 input,
+.flex-1 select {
+  text-align: left;
+}
+
