@@ -1,13 +1,15 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from 'recharts';
 import { Wheat, Monitor, Zap } from 'lucide-react';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import mapImage from '../assets/int-map2.webp';
 
 function Dashboard() {
-    const [isLoading, setIsLoading] = useState(true); // Loading state
+    const [isLoading, setIsLoading] = useState(true);
     const transformRef = useRef(null);
-    const imageLoadedRef = useRef(false); // Ensure setTransform is only called once the image is loaded
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+    const [isTransformReady, setIsTransformReady] = useState(false);
+
 
     const barData = [
         { name: 'Агро', Местные: 50, Иностранные: 70 },
@@ -39,26 +41,26 @@ function Dashboard() {
     const formatAmount = (amount) => `$${(amount / 100).toFixed(1)} млн`;
 
     const handleImageLoad = () => {
-        imageLoadedRef.current = true; // Mark the image as loaded
-        setIsLoading(false); // Hide the loading overlay
-
-        if (transformRef.current) {
-            const { setTransform } = transformRef.current;
-            setTransform(-600, -150, 2); // Set position and scale
-        }
+        setIsImageLoaded(true);
+        setIsLoading(false);
     };
 
-    useEffect(() => {
-        // Ensure the position is reset when the component is mounted
-        if (transformRef.current && imageLoadedRef.current) {
-            const { setTransform } = transformRef.current;
-            setTransform(-600, -150, 2); // x, y, scale
+    const transformRefCallback = useCallback((node) => {
+        if (node !== null) {
+            transformRef.current = node;
+            setIsTransformReady(true);
         }
     }, []);
 
-    return (
+    useEffect(() => {
+        if (isImageLoaded && isTransformReady && transformRef.current) {
+            const { setTransform } = transformRef.current;
+            setTransform(-600, -150, 2);
+        }
+    }, [isImageLoaded, isTransformReady]);
+
+return (
         <div className="relative min-h-screen">
-            {/* Loading overlay */}
             {isLoading && (
                 <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
                     <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
@@ -148,28 +150,28 @@ function Dashboard() {
                         </div>
 
                         <div className="bg-white p-4 rounded-lg shadow-md">
-                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Инвестиции по странам</h2>
-                            <div className="w-full h-80 rounded-lg overflow-hidden">
-                                <TransformWrapper
-                                    ref={transformRef}
-                                    initialScale={2}
-                                    minScale={1}
-                                    maxScale={4}
-                                >
-                                    <TransformComponent>
-                                        <img
-                                            src={mapImage}
-                                            alt="Интерактивная карта"
-                                            className="w-full h-full object-cover"
-                                            onLoad={handleImageLoad} // Call when the image is loaded
-                                        />
-                                    </TransformComponent>
-                                </TransformWrapper>
-                            </div>
-                        </div>
+                    <h2 className="text-xl font-semibold text-gray-700 mb-4">Инвестиции по странам</h2>
+                    <div className="w-full h-80 rounded-lg overflow-hidden">
+                        <TransformWrapper
+                            ref={transformRefCallback}
+                            initialScale={2}
+                            minScale={1}
+                            maxScale={4}
+                        >
+                            <TransformComponent>
+                                <img
+                                    src={mapImage}
+                                    alt="Интерактивная карта"
+                                    className="w-full h-full object-cover"
+                                    onLoad={handleImageLoad}
+                                />
+                            </TransformComponent>
+                        </TransformWrapper>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
     );
 }
