@@ -60,7 +60,7 @@ function MainPage() {
         {/* Add a new button for the Dashboard */}
         <Link to="/dashboard">
           <button className="bg-purple-600 text-white px-6 py-3 rounded-md">
-            Dashboard
+            Дэшборд
           </button>
         </Link>
       </div>
