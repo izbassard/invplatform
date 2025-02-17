@@ -260,6 +260,7 @@ const InvestorDocuments = ({ sector }) => {
 
   // Filter businesses by sector
   const filteredBusinesses = sectorBusinesses[sector] || [];
+  
 
   // Render the catalog if all documents are uploaded and the user clicks the button
   if (showCatalog) {

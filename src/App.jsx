@@ -5,6 +5,8 @@ import Sidebar from './components/sidebar';
 import FormStep from './components/FormStep';
 import InvestorDocuments from './components/InvestorDocuments';
 import BusinessFormStep from './components/BusinessFormStep';
+import Dashboard from './screens/dashboard';
+
 
 // Importing icons used in InvestorCatalog
 import { Search, Settings, LogOut} from "lucide-react"; 
@@ -30,6 +32,9 @@ function App() {
 
             {/* Investor Catalog Page */}
             <Route path="/investor-catalog" element={<InvestorCatalog />} />
+
+            {/* Dashboard Page */}
+            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </div>
@@ -44,12 +49,18 @@ function MainPage() {
       <div className="flex space-x-4">
         <Link to="/investor">
           <button className="bg-blue-600 text-white px-6 py-3 rounded-md">
-          Для инвесторов
+            Для инвесторов
           </button>
         </Link>
         <Link to="/business">
           <button className="bg-green-600 text-white px-6 py-3 rounded-md">
-          Для бизнеса
+            Для бизнеса
+          </button>
+        </Link>
+        {/* Add a new button for the Dashboard */}
+        <Link to="/dashboard">
+          <button className="bg-purple-600 text-white px-6 py-3 rounded-md">
+            Dashboard
           </button>
         </Link>
       </div>

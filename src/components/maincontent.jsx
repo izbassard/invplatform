@@ -71,29 +71,7 @@ function MainContent() {
           />
         )}
       </div>
-      
     </div>
-          {/* Navigation Buttons */}
-          <div className="flex justify-between mt-6">
-          {step > 1 && !formSubmitted && (
-            <button onClick={prevStep} className="btn-secondary">
-              Назад
-            </button>
-          )}
-          {step < 6 && !formSubmitted && (
-            <button onClick={nextStep} className="btn-primary">
-              Далее
-            </button>
-          )}
-          {step === 6 && !formSubmitted && (
-            <button
-              onClick={handleConfirm}
-              className="btn-primary bg-green-600 hover:bg-green-700"
-            >
-              Подтвердить
-            </button>
-          )}
-        </div>
   );
 }
 
